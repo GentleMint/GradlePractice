@@ -1,0 +1,14 @@
+task disableMe << {
+	println 'Hello!'
+}
+
+disableMe.enabled = false
+
+// Conclusion: if the task's dependency is disable, this task will still be executed!
+task disableDep (dependsOn: disableMe) << {
+	println 'Oh, My dependency is disabled!'
+}
+// Output:
+// :disableMe SKIPPED
+// :disableDep
+// Oh, My dependency is disabled!
