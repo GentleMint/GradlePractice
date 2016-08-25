@@ -12,3 +12,24 @@ task disableDep (dependsOn: disableMe) << {
 // :disableMe SKIPPED
 // :disableDep
 // Oh, My dependency is disabled!
+
+
+
+// ================================================================
+// A more complex example: t1 dependsOn condition checking ...
+// ================================================================
+ext {
+	allowT1 = false
+}
+
+task checkCondition << {
+	allowT1 = false
+}
+
+task applyCondition(dependsOn: checkCondition) << {
+	t1.enabled = allowT1
+}
+
+task t1 (dependsOn: applyCondition) << {
+
+}
