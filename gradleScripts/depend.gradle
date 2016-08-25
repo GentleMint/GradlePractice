@@ -1,0 +1,18 @@
+ext {
+	counter = 0
+}
+
+task t1 <<{
+	counter ++
+}
+
+task t2 (dependsOn: t1) << {
+
+}
+
+task t3 (dependsOn: [t1, t2]) << {
+	println counter
+}
+// ================================================================
+// t1 is depended by t2 and t3, but it's only executed once!
+// ================================================================
