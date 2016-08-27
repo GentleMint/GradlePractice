@@ -1,0 +1,10 @@
+task a << {
+	project.ext.p1 = 'pp'
+}
+
+task b (dependsOn: a) << {
+	println project.ext.p1 // pp
+	// println ext.p1 // error
+	println '$p1' // $p1
+	println "$p1" // pp
+}

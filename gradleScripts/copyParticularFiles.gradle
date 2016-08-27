@@ -1,0 +1,14 @@
+//Test copy
+
+task copyParticularFiles << {
+    def folderPath = 'E:/workspace/eclipse/NEEGradleBuildScripts/tmp/10.4.0000.0024_RELEASE_MicroStrategy_war'
+
+    copy {
+        from folderPath
+        into 'E:/tmp/t'
+        include '**/*.gif', '**/*.css'
+        includeEmptyDirs = false
+    }
+
+    
+}

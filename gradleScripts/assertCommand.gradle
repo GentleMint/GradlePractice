@@ -1,0 +1,13 @@
+task a (dependsOn: 'b') << {
+	println 'yea!'
+}
+
+task b << {
+	assert false
+}
+
+task c << {
+
+}
+
+// assert fail will stop all other tasks

@@ -1,0 +1,19 @@
+task B << {
+
+}
+
+task C << {
+
+}
+
+task A (dependsOn: ['B', 'C']) << {
+
+}
+
+B.mustRunAfter 'C' // running B won't trigger C
+
+
+task D (dependsOn: ['B', 'C'])  {
+}
+
+// C.mustRunAfter 'B' // Error

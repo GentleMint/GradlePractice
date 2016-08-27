@@ -1,7 +1,10 @@
+// reference: http://www.practicalgradle.org/blog/2010/10/skipping-tasks/
+
 task disableMe << {
 	println 'Hello!'
 }
 
+// configuration time:
 disableMe.enabled = false
 
 // ================================================================
@@ -62,4 +65,29 @@ task applyCondition(dependsOn: checkCondition) << {
 
 task t1 (dependsOn: applyCondition) << {
 
+}
+
+// ================================================================
+// Execution time: use onlyIf
+// ================================================================
+task testOnlyIf {
+	onlyIf {
+		false
+	}
+	doFirst {
+		println 'testOnlyIf'
+	}
+}
+
+
+// ================================================================
+// Execution time: use Exception to stop task (other task will still be run)
+// ================================================================
+task testExcept {
+	doFirst {
+		throw new StopExecutionException("Skip this task!")
+	}
+	doLast {
+		println 'testExcept'
+	}
 }

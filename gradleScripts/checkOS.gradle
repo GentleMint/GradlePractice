@@ -1,0 +1,5 @@
+import org.gradle.internal.os.OperatingSystem
+
+task checkOS << {
+	println OperatingSystem.current().windows // true
+}

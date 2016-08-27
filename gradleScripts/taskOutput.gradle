@@ -1,0 +1,20 @@
+
+// ================================================================
+// set output to class member
+// ================================================================
+
+class ParseJSONFile extends DefaultTask {
+    String jsonFile;
+    
+
+    @TaskAction
+    def readMapping () {
+    	jsonFile = 'ooo'
+    }
+}
+
+task test (type: ParseJSONFile) {
+	doLast {
+		println jsonFile
+	}
+}
