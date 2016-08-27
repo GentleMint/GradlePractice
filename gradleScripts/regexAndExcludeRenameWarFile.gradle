@@ -1,0 +1,46 @@
+apply plugin: 'war'
+apply plugin: 'java'
+
+// ext {
+// 	targetOS = 'linux'
+// }
+
+if (!hasProperty('targetOS')) {
+	project.ext.targetOS = 'windows'
+}
+
+task A << {
+	def str1 = 'phantomjs/phantomjs_linux.process'
+	def str2 = 'phantomjs/phantomjs_windows.process'
+	def str3 = 'phantomjs/phantomjs.process'
+	def str4 = 'aphantomjs/phantomjs.process'
+	def str5 = 'phantomjs/phantomjs.process1'
+
+	def testStrings = [str1, str2, str3, str4, str5, 'phantomjs/phantomjs_.process']
+
+	for (str in testStrings) {
+	println str
+	println str.matches('phantomjs/phantomjs(_linux|_windows)?\\.process')	
+	}
+	
+}
+
+war {
+	baseName = 'PDFExporter'
+	version = '0.0.1-SNAPSHOT'+"${targetOS}"
+
+	rootSpec.eachFile { details -> 
+        if (details.relativeSourcePath.toString().matches('phantomjs/phantomjs(_linux|_windows)?\\.process')) {
+			println details.relativeSourcePath.toString()
+        	if (details.name == "phantomjs_${targetOS}.process" ) {
+        		details.name = "phantomjs.process"
+        		println 'renamed'
+        	} else {
+        		details.exclude()
+        		println 'exclude'
+        	}
+    	}
+	}
+
+	// outputs.upToDateWhen { false }
+}
