@@ -1,10 +1,15 @@
+// reference: http://www.practicalgradle.org/blog/2010/10/skipping-tasks/
+
 task disableMe << {
 	println 'Hello!'
 }
 
+// configuration time:
 disableMe.enabled = false
 
-// Conclusion: if the task's dependency is disable, this task will still be executed!
+// ================================================================
+// if the task's dependency is disable, this task will still be executed!
+// ================================================================
 task disableDep (dependsOn: disableMe) << {
 	println 'Oh, My dependency is disabled!'
 }
@@ -12,3 +17,77 @@ task disableDep (dependsOn: disableMe) << {
 // :disableMe SKIPPED
 // :disableDep
 // Oh, My dependency is disabled!
+
+
+// ================================================================
+// if the task is disabled, its dependency will still be run
+// ================================================================
+task t2 << {
+
+}
+task t3 (dependsOn: t2) << {
+
+}
+t3.enabled = false	
+// Output:
+// :t2
+// :t3 SKIPPED
+
+
+// ================================================================
+// Disable itself
+// ================================================================
+task t4 {
+	doFirst {
+		println 'do first'
+	}
+	enabled = false
+	doLast {
+		println 'do last'
+	}
+}
+
+
+// ================================================================
+// A more complex example: t1 dependsOn condition checking ...
+// ================================================================
+ext {
+	allowT1 = false
+}
+
+task checkCondition << {
+	allowT1 = false
+}
+
+task applyCondition(dependsOn: checkCondition) << {
+	t1.enabled = allowT1
+}
+
+task t1 (dependsOn: applyCondition) << {
+
+}
+
+// ================================================================
+// Execution time: use onlyIf
+// ================================================================
+task testOnlyIf {
+	onlyIf {
+		false
+	}
+	doFirst {
+		println 'testOnlyIf'
+	}
+}
+
+
+// ================================================================
+// Execution time: use Exception to stop task (other task will still be run)
+// ================================================================
+task testExcept {
+	doFirst {
+		throw new StopExecutionException("Skip this task!")
+	}
+	doLast {
+		println 'testExcept'
+	}
+}

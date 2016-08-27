@@ -1,0 +1,20 @@
+ext {
+    // build = '' // won't take the command line parameter if define the property here.
+}
+
+
+
+
+// running below command to pass in a projet property
+// > gradle A -Pbuild=10.4.1000.0024
+
+task A () << {
+    if (!project.hasProperty('build')) {
+        // println 'null'
+        project.ext.build = 'null'
+        // project.setProperty('build', 'null') // error
+    }
+
+
+    println "$build"
+}

@@ -1,0 +1,42 @@
+ext {
+	counter = 0
+}
+
+task t1 <<{
+	counter ++
+}
+
+task t2 (dependsOn: t1) << {
+
+}
+
+task t3 (dependsOn: [t1, t2]) << {
+	println counter
+}
+// ================================================================
+// t1 is depended by t2 and t3, but it's only executed once!
+// ================================================================
+
+
+
+
+// ================================================================
+// ways of defining dependencies
+// ================================================================
+task A (dependsOn: ['B', 'C']) {
+    //dependsOn: ['B', 'C'] // error: statement lables are now expected!
+    dependsOn  = ['B', 'C'] // set property
+    // dependsOn ['B', 'C'] // error: no method found for ArrayList argument
+    dependsOn 'B', 'C' // call method
+    doFirst {
+        println mustRunAfter
+    }
+}
+
+task B {
+
+}
+
+task C {
+
+}

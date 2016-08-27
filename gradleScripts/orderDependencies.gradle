@@ -1,0 +1,15 @@
+task a << {
+    println 'a'
+}
+
+task b << {
+    println 'b'
+}
+
+task c << {
+    println 'c'
+}
+
+task d (dependsOn: [a, b, c])
+a.mustRunAfter [b, c]
+// b.mustRunAfter c
